@@ -84,7 +84,7 @@ const AuditLogs = () => {
                         variant={activeTab === 'compliance' ? 'primary' : 'outline'}
                         size="sm"
                     >
-                        Compliance Queue
+                        Governance Audits
                     </Button>
                 </div>
             </div>

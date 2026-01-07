@@ -88,7 +88,7 @@ const Login = () => {
                 </form>
 
                 <p className="mt-8 text-center text-xs text-slate-400">
-                    © 2024 Velion Dynamics. Internal Use Only.
+                    © {new Date().getFullYear()} Velion Dynamics. Internal Use Only.
                 </p>
             </Card>
         </div>

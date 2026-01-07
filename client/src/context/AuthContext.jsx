@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
             if (currentUser) {
                 const idToken = await currentUser.getIdToken();
                 setToken(idToken);
-
-                // Fetch user profile from Backend API (bypassing Client Firestore Rules)
                 try {
                     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
                     const response = await axios.get(`${apiUrl}/users/me`, {
@@ -30,7 +28,6 @@ export const AuthProvider = ({ children }) => {
                     setUser(userData);
                 } catch (error) {
                     console.error("Error fetching user profile from API:", error);
-                    // Fallback to basic user if API fails
                     setUser({ ...currentUser, role: 'consultant' });
                 }
             } else {
@@ -45,15 +42,10 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            // Use Firebase Client SDK for Login
-            // This persists the session automatically and triggers onAuthStateChanged
             await signInWithEmailAndPassword(auth, email, password);
-
-            // Note: We don't need to manually set user/token or localStorage here.
-            // onAuthStateChanged will fire, get the token, fetch the profile, and update state.
         } catch (error) {
             console.error("Login failed", error);
-            throw error; // Propagate error to UI for handling (e.g. invalid password)
+            throw error;
         }
     };
 

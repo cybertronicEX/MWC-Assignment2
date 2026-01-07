@@ -3,10 +3,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-// Initialize Firebase Admin using Environment Variables
-// We support either a full JSON string in FIREBASE_SERVICE_ACCOUNT
-// OR individual fields.
-
 let serviceAccount;
 
 try {
@@ -19,11 +15,10 @@ try {
     ) {
         serviceAccount = {
             projectId: process.env.FIREBASE_PROJECT_ID,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Handle newlines in env var
+            privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
         };
     } else {
-        // Fallback to file for local dev convenience if envs are missing
         try {
             serviceAccount = require('../serviceAccountKey.json');
         } catch {
@@ -31,7 +26,6 @@ try {
         }
     }
 
-    // Construct storage bucket if not provided
     const storageBucket = process.env.FIREBASE_STORAGE_BUCKET || `${serviceAccount.projectId}.appspot.com`;
 
     admin.initializeApp({
@@ -47,6 +41,6 @@ try {
 const db = admin.firestore();
 const auth = admin.auth();
 const storage = admin.storage();
-const bucket = storage.bucket(); // Uses the default bucket defined in initializeApp
+const bucket = storage.bucket();
 
 module.exports = { admin, db, auth, bucket };
